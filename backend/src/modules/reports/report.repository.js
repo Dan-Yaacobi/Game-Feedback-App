@@ -14,15 +14,35 @@ const insertReport = async (reportData) => {
   return mapReportRow(rows[0]);
 };
 
-const findReports = async ({ limit, offset }) => {
+const findReports = async ({ limit, offset, status, reportType }) => {
+  const values = [];
+  const where = [];
+
+  if (status) {
+    values.push(status);
+    where.push(`status = $${values.length}`);
+  }
+
+  if (reportType) {
+    values.push(reportType);
+    where.push(`report_type = $${values.length}`);
+  }
+
+  values.push(limit);
+  const limitIndex = values.length;
+  values.push(offset);
+  const offsetIndex = values.length;
+
+  const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
   const sql = `
     SELECT *
     FROM reports
+    ${whereClause}
     ORDER BY created_at DESC
-    LIMIT $1 OFFSET $2
+    LIMIT $${limitIndex} OFFSET $${offsetIndex}
   `;
 
-  const { rows } = await query(sql, [limit, offset]);
+  const { rows } = await query(sql, values);
   return rows.map(mapReportRow);
 };
 
