@@ -4,14 +4,17 @@ const helmet = require('helmet');
 const pinoHttp = require('pino-http');
 const rateLimit = require('express-rate-limit');
 
+const env = require('./config/env');
+require('./config/db');
+
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || '*' }));
+app.use(cors({ origin: env.clientOrigin }));
 app.use(express.json());
 app.use(
   pinoHttp({
-    level: process.env.LOG_LEVEL || 'info',
+    level: env.logLevel,
   })
 );
 app.use(
