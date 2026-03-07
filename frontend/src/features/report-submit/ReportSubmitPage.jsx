@@ -1,14 +1,16 @@
 import { useRef, useState } from 'react';
 
 import FileInput from '../../components/form/FileInput';
-import FormError from '../../components/form/FormError';
 import SelectInput from '../../components/form/SelectInput';
 import TextArea from '../../components/form/TextArea';
 import TextInput from '../../components/form/TextInput';
+import ErrorBanner from '../../components/feedback/ErrorBanner';
+import LoadingSpinner from '../../components/feedback/LoadingSpinner';
+import SuccessMessage from '../../components/feedback/SuccessMessage';
 import { createReport } from '../../services/reportsApi';
+import { mapHttpError } from '../../utils/httpErrorMapper';
 import {
   ALLOWED_SCREENSHOT_TYPES,
-  REPORT_TYPES,
   validateReportSubmit,
 } from './reportSubmit.schema';
 import '../../styles/report-submit.css';
@@ -105,8 +107,7 @@ export default function ReportSubmitPage() {
       clearForm();
       setSuccessMessage('Thank you for your feedback. Your report has been submitted.');
     } catch (error) {
-      const apiMessage = error.response?.data?.message;
-      setSubmitError(apiMessage || 'Unable to submit report. Please try again.');
+      setSubmitError(mapHttpError(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -197,11 +198,11 @@ export default function ReportSubmitPage() {
           {isSubmitting ? 'Submitting...' : 'Submit Report'}
         </button>
 
-        <p className="form-status" aria-live="polite">
-          {successMessage}
-        </p>
+        {isSubmitting && <LoadingSpinner size="sm" />}
 
-        <FormError error={submitError} />
+        <SuccessMessage message={successMessage} />
+
+        <ErrorBanner message={submitError} />
       </form>
     </section>
   );
