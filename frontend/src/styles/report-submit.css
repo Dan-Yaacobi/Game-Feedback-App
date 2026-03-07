@@ -1,0 +1,85 @@
+.report-submit-page {
+  max-width: 720px;
+}
+
+.report-submit-intro {
+  margin-bottom: 1rem;
+  color: #334155;
+}
+
+.report-submit-form {
+  display: grid;
+  gap: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd5e1;
+  font: inherit;
+  color: #0f172a;
+  background: #ffffff;
+}
+
+.form-file-input {
+  padding: 0.45rem;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: #3b82f6;
+}
+
+.has-error {
+  border-color: #dc2626;
+}
+
+.form-helper {
+  color: #475569;
+  font-size: 0.875rem;
+}
+
+.form-error {
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.submit-button {
+  border: none;
+  border-radius: 0.5rem;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-status {
+  color: #166534;
+  min-height: 1.5rem;
+}
