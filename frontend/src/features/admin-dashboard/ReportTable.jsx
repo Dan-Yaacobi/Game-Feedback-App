@@ -75,9 +75,6 @@ export default function ReportTable({ reports, onStatusChangeSuccess }) {
     await onStatusChangeSuccess();
   };
 
-  if (reports.length === 0) {
-    return <p className="report-table__empty">No reports found for the selected filters.</p>;
-  }
 
   return (
     <>
