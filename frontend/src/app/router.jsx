@@ -1,18 +1,41 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-function HomePage() {
+function LandingPage() {
   return (
-    <main style={{ fontFamily: 'sans-serif', margin: '2rem' }}>
-      <h1>Game Feedback App</h1>
-      <p>Frontend loaded successfully.</p>
-    </main>
+    <section>
+      <h2 className="page-title">Welcome</h2>
+      <p>Frontend foundation is ready.</p>
+    </section>
   );
 }
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <HomePage />,
-  },
-]);
+function ReportPage() {
+  return (
+    <section>
+      <h2 className="page-title">Report Submission</h2>
+      <p>Report submission page coming soon.</p>
+    </section>
+  );
+}
+
+function AdminPage() {
+  return (
+    <section>
+      <h2 className="page-title">Admin Dashboard</h2>
+      <p>Admin dashboard page coming soon.</p>
+    </section>
+  );
+}
+
+export default function AppRouter() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/report" element={<ReportPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
