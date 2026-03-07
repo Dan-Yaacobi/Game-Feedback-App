@@ -243,3 +243,103 @@ VITE_API_BASE_URL=http://localhost:4000/api
     - Introduce `users` table and role concepts (without full auth yet).
     - Add placeholders in API for auth middleware injection.
     - Ensure all admin routes are grouped for future protection.
+
+## 5) End-to-End Local Integration Runbook
+
+### Prerequisites
+
+- Docker (for local PostgreSQL via `docker-compose`), or an existing PostgreSQL instance.
+- Node.js 18+ and npm.
+- `psql` CLI.
+
+### Start PostgreSQL
+
+From the repository root:
+
+```bash
+docker compose up -d postgres
+```
+
+### Configure environment files
+
+Backend (`backend/.env`):
+
+```env
+NODE_ENV=development
+PORT=4000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/game_feedback
+CLIENT_ORIGIN=http://localhost:5173
+UPLOAD_DIR=uploads
+MAX_FILE_SIZE_MB=5
+ALLOWED_IMAGE_MIME=image/png,image/jpeg,image/webp
+```
+
+Frontend (`frontend/.env`):
+
+```env
+VITE_API_BASE_URL=http://localhost:4000/api
+```
+
+### Run migrations with psql
+
+```bash
+psql postgresql://postgres:postgres@localhost:5432/game_feedback -f database/migrations/001_create_enums.sql
+psql postgresql://postgres:postgres@localhost:5432/game_feedback -f database/migrations/002_create_reports.sql
+psql postgresql://postgres:postgres@localhost:5432/game_feedback -f database/migrations/003_indexes.sql
+```
+
+### Start backend
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Health check:
+
+```bash
+curl http://localhost:4000/api/health
+```
+
+Expected response:
+
+```json
+{"status":"ok"}
+```
+
+### Start frontend
+
+In a second terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open:
+
+- `http://localhost:5173`
+- `http://localhost:5173/report`
+- `http://localhost:5173/admin`
+
+### Verify report submission workflow
+
+1. Submit a report on `/report`.
+2. Confirm request hits `POST /api/reports`.
+3. Verify data in PostgreSQL:
+
+```sql
+SELECT id, title, report_type, status, screenshot_path, screenshot_mime_type
+FROM reports
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+4. Open `/admin` and ensure the report appears in the list.
+5. Open report details and verify screenshot preview loads.
+6. Update status through transitions:
+   - `open` → `investigating`
+   - `investigating` → `closed`
+7. Re-run SQL query to confirm status changes persisted.
