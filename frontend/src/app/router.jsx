@@ -1,5 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import AdminDashboardPage from '../features/admin-dashboard/AdminDashboardPage';
+
 function LandingPage() {
   return (
     <section>
@@ -18,22 +20,13 @@ function ReportPage() {
   );
 }
 
-function AdminPage() {
-  return (
-    <section>
-      <h2 className="page-title">Admin Dashboard</h2>
-      <p>Admin dashboard page coming soon.</p>
-    </section>
-  );
-}
-
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/report" element={<ReportPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminDashboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
