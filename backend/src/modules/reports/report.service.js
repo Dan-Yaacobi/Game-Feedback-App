@@ -1,3 +1,6 @@
+const path = require('path');
+
+const env = require('../../config/env');
 const reportRepository = require('./report.repository');
 
 class ServiceError extends Error {
@@ -15,7 +18,20 @@ const ALLOWED_TRANSITIONS = {
 };
 
 const createReport = async (data) => {
-  return reportRepository.insertReport(data);
+  const screenshotPath = data.screenshot
+    ? path.posix.join(env.uploadDir, path.basename(data.screenshot.path))
+    : null;
+
+  return reportRepository.insertReport({
+    title: data.title,
+    description: data.description,
+    reportType: data.reportType,
+    playerEmail: data.playerEmail,
+    playerName: data.playerName,
+    screenshotPath,
+    screenshotMimeType: data.screenshot?.mimeType || null,
+    screenshotSizeBytes: data.screenshot?.sizeBytes || null,
+  });
 };
 
 const listReports = async (filters = {}) => {
