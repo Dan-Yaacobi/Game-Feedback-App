@@ -59,6 +59,16 @@
   border-bottom: 0;
 }
 
+.report-table__row {
+  cursor: pointer;
+}
+
+.report-table__row:hover,
+.report-table__row:focus-visible {
+  background-color: #f8fafc;
+  outline: none;
+}
+
 .report-table__empty,
 .admin-dashboard__state {
   padding: 1rem;
@@ -96,6 +106,11 @@
   color: #2b8a3e;
 }
 
+.status-badge--unknown {
+  background-color: #e7f5ff;
+  color: #1864ab;
+}
+
 .admin-dashboard__pagination {
   display: flex;
   align-items: center;
@@ -115,4 +130,113 @@
 .admin-dashboard__pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.report-detail-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.report-detail-drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.report-detail-drawer__panel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: min(560px, 95vw);
+  background-color: #fff;
+  box-shadow: -8px 0 30px rgba(15, 23, 42, 0.2);
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.report-detail-drawer__header {
+  padding: 1rem;
+  border-bottom: 1px solid #e4e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.report-detail-drawer__header button {
+  border: 1px solid #bcccdc;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  padding: 0.35rem 0.7rem;
+  cursor: pointer;
+}
+
+.report-detail-drawer__content,
+.report-detail-drawer__state {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.report-detail-drawer__fields {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.report-detail-drawer__fields dt {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #486581;
+}
+
+.report-detail-drawer__fields dd {
+  margin: 0.25rem 0 0;
+  color: #102a43;
+}
+
+.report-detail-drawer__screenshot {
+  margin-top: 1rem;
+}
+
+.report-detail-drawer__screenshot img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid #d9e2ec;
+}
+
+.status-change-control {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 0.75rem;
+  background: #f8fafc;
+}
+
+.status-change-control__label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.status-change-control__select {
+  width: 100%;
+  min-height: 2.25rem;
+  border: 1px solid #bcccdc;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  background: #fff;
+}
+
+.status-change-control__hint {
+  margin: 0.5rem 0 0;
+  color: #486581;
+  font-size: 0.85rem;
+}
+
+.status-change-control__error {
+  margin: 0.5rem 0 0;
+  color: #c92a2a;
+  font-size: 0.85rem;
 }
