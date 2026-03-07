@@ -7,10 +7,17 @@ const {
   listReportsQuerySchema,
 } = require('./report.validation');
 const { singleScreenshotUpload } = require('../../middleware/upload.middleware');
+const { reportSubmitLimiter } = require('../../middleware/rateLimit.middleware');
 
 const router = Router();
 
-router.post('/reports', singleScreenshotUpload, validate(createReportSchema), reportController.createReport);
+router.post(
+  '/reports',
+  reportSubmitLimiter,
+  singleScreenshotUpload,
+  validate(createReportSchema),
+  reportController.createReport
+);
 router.get('/reports', validate(listReportsQuerySchema), reportController.listReports);
 router.get('/reports/:id', reportController.getReportById);
 router.patch('/reports/:id/status', validate(updateStatusSchema), reportController.updateStatus);
