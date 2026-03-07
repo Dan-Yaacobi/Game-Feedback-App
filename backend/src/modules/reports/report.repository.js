@@ -2,15 +2,42 @@ const { query } = require('../../config/db');
 const { mapReportRow } = require('./report.mapper');
 
 const insertReport = async (reportData) => {
-  const { title, description, reportType, playerEmail, playerName } = reportData;
+  const {
+    title,
+    description,
+    reportType,
+    playerEmail,
+    playerName,
+    screenshotPath,
+    screenshotMimeType,
+    screenshotSizeBytes,
+  } = reportData;
 
   const sql = `
-    INSERT INTO reports (title, description, report_type, player_email, player_name)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO reports (
+      title,
+      description,
+      report_type,
+      player_email,
+      player_name,
+      screenshot_path,
+      screenshot_mime_type,
+      screenshot_size_bytes
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
   `;
 
-  const { rows } = await query(sql, [title, description, reportType, playerEmail, playerName]);
+  const { rows } = await query(sql, [
+    title,
+    description,
+    reportType,
+    playerEmail,
+    playerName,
+    screenshotPath || null,
+    screenshotMimeType || null,
+    screenshotSizeBytes || null,
+  ]);
   return mapReportRow(rows[0]);
 };
 

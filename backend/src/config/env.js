@@ -25,6 +25,12 @@ const config = {
   databaseUrl: process.env.DATABASE_URL,
   clientOrigin: process.env.CLIENT_ORIGIN || '*',
   logLevel: process.env.LOG_LEVEL || 'info',
+  uploadDir: process.env.UPLOAD_DIR || 'uploads',
+  maxFileSizeMb: Number(process.env.MAX_FILE_SIZE_MB || 5),
+  allowedImageMime: (process.env.ALLOWED_IMAGE_MIME || 'image/png,image/jpeg,image/webp')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean),
 };
 
 module.exports = config;

@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -32,6 +33,11 @@ app.use(
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });
 });
+
+app.use(
+  `/${env.uploadDir}`,
+  express.static(path.resolve(__dirname, '..', env.uploadDir))
+);
 
 app.use('/api', reportsRouter);
 app.use(notFoundMiddleware);

@@ -5,12 +5,21 @@ const createReport = async (req, res, next) => {
     const { title, description, report_type: reportType, player_email: playerEmail, player_name: playerName } =
       req.body;
 
+    const screenshot = req.file
+      ? {
+          path: req.file.path,
+          mimeType: req.file.mimetype,
+          sizeBytes: req.file.size,
+        }
+      : null;
+
     const report = await reportService.createReport({
       title,
       description,
       reportType,
       playerEmail,
       playerName,
+      screenshot,
     });
 
     return res.status(201).json({
