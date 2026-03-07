@@ -12,8 +12,8 @@ const STATUS_CLASSES = {
 
 export default function StatusBadge({ status }) {
   const normalizedStatus = (status || '').toLowerCase();
-  const badgeClass = STATUS_CLASSES[normalizedStatus] || 'status-badge--open';
-  const label = STATUS_LABELS[normalizedStatus] || status || 'Unknown';
+  const badgeClass = STATUS_CLASSES[normalizedStatus] || 'status-badge--unknown';
+  const label = STATUS_LABELS[normalizedStatus] || 'Unknown';
 
   return <span className={`status-badge ${badgeClass}`}>{label}</span>;
 }

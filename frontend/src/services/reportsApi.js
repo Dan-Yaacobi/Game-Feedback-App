@@ -6,9 +6,14 @@ export function getReports(params = {}) {
   });
 }
 
-export default {
-  getReports,
-};
+export function getReportById(id) {
+  return apiClient.get(`/reports/${id}`);
+}
+
+export function updateReportStatus(id, status) {
+  return apiClient.patch(`/reports/${id}/status`, { status });
+}
+
 export function createReport(formData) {
   return apiClient.post('/reports', formData, {
     headers: {
@@ -16,3 +21,10 @@ export function createReport(formData) {
     },
   });
 }
+
+export default {
+  getReports,
+  getReportById,
+  updateReportStatus,
+  createReport,
+};

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import ReportFilters from './ReportFilters';
 import '../../styles/admin-dashboard.css';
@@ -39,44 +39,27 @@ export default function AdminDashboardPage() {
     [filters.report_type, filters.status, page]
   );
 
-  useEffect(() => {
-    let isMounted = true;
+  const fetchReports = useCallback(async () => {
+    setIsLoading(true);
+    setError('');
 
-    async function fetchReports() {
-      setIsLoading(true);
-      setError('');
-
-      try {
-        const response = await getReports(queryParams);
-
-        if (!isMounted) {
-          return;
-        }
-
-        const normalizedData = normalizeResponse(response.data);
-        setReports(normalizedData.reports);
-        setTotalPages(normalizedData.totalPages);
-      } catch {
-        if (!isMounted) {
-          return;
-        }
-
-        setError('Failed to load reports. Please try again.');
-        setReports([]);
-        setTotalPages(null);
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
+    try {
+      const response = await getReports(queryParams);
+      const normalizedData = normalizeResponse(response.data);
+      setReports(normalizedData.reports);
+      setTotalPages(normalizedData.totalPages);
+    } catch {
+      setError('Failed to load reports. Please try again.');
+      setReports([]);
+      setTotalPages(null);
+    } finally {
+      setIsLoading(false);
     }
-
-    fetchReports();
-
-    return () => {
-      isMounted = false;
-    };
   }, [queryParams]);
+
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
   const handleFilterChange = (name, value) => {
     setFilters((currentFilters) => ({
@@ -111,7 +94,7 @@ export default function AdminDashboardPage() {
 
       {isLoading && <p className="admin-dashboard__state">Loading reports...</p>}
       {error && <p className="admin-dashboard__state admin-dashboard__state--error">{error}</p>}
-      {!isLoading && !error && <ReportTable reports={reports} />}
+      {!isLoading && !error && <ReportTable reports={reports} onStatusChangeSuccess={fetchReports} />}
 
       <footer className="admin-dashboard__pagination" aria-label="Pagination controls">
         <button type="button" onClick={handlePrevious} disabled={page === 1 || isLoading}>
