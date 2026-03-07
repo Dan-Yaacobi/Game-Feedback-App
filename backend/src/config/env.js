@@ -44,7 +44,7 @@ const config = {
   nodeEnv: process.env.NODE_ENV,
   port: Number(process.env.PORT),
   databaseUrl: process.env.DATABASE_URL,
-  clientOrigin: process.env.CLIENT_ORIGIN || '*',
+  clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   logLevel: process.env.LOG_LEVEL || 'info',
   uploadDir: process.env.UPLOAD_DIR || 'uploads',
   maxFileSizeMb: Number(process.env.MAX_FILE_SIZE_MB || 5),
