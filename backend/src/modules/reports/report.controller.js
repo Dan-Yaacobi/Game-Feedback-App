@@ -2,14 +2,8 @@ const reportService = require('./report.service');
 
 const createReport = async (req, res, next) => {
   try {
-    const { title, description, reportType, playerEmail, playerName } = req.body;
-
-    if (!title || !description || !reportType || !playerEmail || !playerName) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required fields',
-      });
-    }
+    const { title, description, report_type: reportType, player_email: playerEmail, player_name: playerName } =
+      req.body;
 
     const report = await reportService.createReport({
       title,
@@ -30,7 +24,9 @@ const createReport = async (req, res, next) => {
 
 const listReports = async (req, res, next) => {
   try {
-    const reports = await reportService.listReports(req.query);
+    const { page, limit, status, report_type: reportType } = req.query;
+    const offset = (page - 1) * limit;
+    const reports = await reportService.listReports({ limit, offset, status, reportType });
 
     return res.json({
       success: true,
@@ -57,13 +53,6 @@ const getReportById = async (req, res, next) => {
 const updateStatus = async (req, res, next) => {
   try {
     const { status } = req.body;
-    if (!status) {
-      return res.status(400).json({
-        success: false,
-        error: 'Missing required field: status',
-      });
-    }
-
     const report = await reportService.updateStatus(req.params.id, status);
 
     return res.json({

@@ -7,6 +7,8 @@ const rateLimit = require('express-rate-limit');
 const env = require('./config/env');
 require('./config/db');
 const reportsRouter = require('./modules/reports/report.routes');
+const { notFoundMiddleware } = require('./middleware/notFound.middleware');
+const { errorMiddleware } = require('./middleware/error.middleware');
 
 const app = express();
 
@@ -32,15 +34,7 @@ app.get('/api/health', (_req, res) => {
 });
 
 app.use('/api', reportsRouter);
-
-app.use((error, _req, res, _next) => {
-  const statusCode = error.statusCode || 500;
-  const message = error.message || 'Internal server error';
-
-  res.status(statusCode).json({
-    success: false,
-    error: message,
-  });
-});
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 module.exports = app;

@@ -22,7 +22,12 @@ const listReports = async (filters = {}) => {
   const limit = Number(filters.limit) || 20;
   const offset = Number(filters.offset) || 0;
 
-  return reportRepository.findReports({ limit, offset });
+  return reportRepository.findReports({
+    limit,
+    offset,
+    status: filters.status,
+    reportType: filters.reportType,
+  });
 };
 
 const getReportById = async (id) => {
