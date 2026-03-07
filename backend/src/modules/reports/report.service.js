@@ -2,6 +2,8 @@ const path = require('path');
 
 const env = require('../../config/env');
 const reportRepository = require('./report.repository');
+const { sendReportNotification } = require('../../notifications/email.service');
+const logger = require('../../shared/logger');
 
 class ServiceError extends Error {
   constructor(message, statusCode = 400) {
@@ -22,7 +24,7 @@ const createReport = async (data) => {
     ? path.posix.join(env.uploadDir, path.basename(data.screenshot.path))
     : null;
 
-  return reportRepository.insertReport({
+  const report = await reportRepository.insertReport({
     title: data.title,
     description: data.description,
     reportType: data.reportType,
@@ -32,6 +34,15 @@ const createReport = async (data) => {
     screenshotMimeType: data.screenshot?.mimeType || null,
     screenshotSizeBytes: data.screenshot?.sizeBytes || null,
   });
+
+  sendReportNotification(report).catch((error) => {
+    logger.error(
+      { err: error, reportId: report.id },
+      'Failed to send report notification email.'
+    );
+  });
+
+  return report;
 };
 
 const listReports = async (filters = {}) => {

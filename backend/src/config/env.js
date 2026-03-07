@@ -19,6 +19,27 @@ if (missingVariables.length > 0) {
   );
 }
 
+const isProduction = process.env.NODE_ENV === 'production';
+const smtpRequiredVariables = [
+  'SMTP_HOST',
+  'SMTP_PORT',
+  'SMTP_USER',
+  'SMTP_PASS',
+  'OWNER_EMAIL',
+];
+
+if (isProduction) {
+  const missingSmtpVariables = smtpRequiredVariables.filter(
+    (variable) => !process.env[variable]
+  );
+
+  if (missingSmtpVariables.length > 0) {
+    throw new Error(
+      `Missing required SMTP environment variable(s) in production: ${missingSmtpVariables.join(', ')}`
+    );
+  }
+}
+
 const config = {
   nodeEnv: process.env.NODE_ENV,
   port: Number(process.env.PORT),
@@ -31,6 +52,11 @@ const config = {
     .split(',')
     .map((value) => value.trim())
     .filter(Boolean),
+  smtpHost: process.env.SMTP_HOST,
+  smtpPort: Number(process.env.SMTP_PORT || 587),
+  smtpUser: process.env.SMTP_USER,
+  smtpPass: process.env.SMTP_PASS,
+  ownerEmail: process.env.OWNER_EMAIL,
 };
 
 module.exports = config;
