@@ -10,6 +10,7 @@ import TextInput from '../../components/form/TextInput';
 import ErrorBanner from '../../components/feedback/ErrorBanner';
 import LoadingSpinner from '../../components/feedback/LoadingSpinner';
 import SuccessMessage from '../../components/feedback/SuccessMessage';
+import GameButton from '../../components/ui/GameButton';
 import { createReport } from '../../services/reportsApi';
 import { mapHttpError } from '../../utils/httpErrorMapper';
 import {
@@ -117,7 +118,7 @@ export default function ReportSubmitPage() {
   };
 
   return (
-    <section className="report-submit-page ui-panel">
+    <section className="report-submit-page ui-panel ui-panel-animate">
       <header className="ui-panel-header">
         <h2 className="page-title ui-panel-title">Submit Report</h2>
         <p className="report-submit-intro">Share bugs, suggestions, and gameplay concerns with our team.</p>
@@ -204,9 +205,9 @@ export default function ReportSubmitPage() {
             helperText="Accepted formats: PNG, JPEG, WEBP"
           />
 
-          <button type="submit" className="ui-button ui-button-primary" disabled={isSubmitting}>
+          <GameButton type="submit" className="ui-button-primary" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit Report'}
-          </button>
+          </GameButton>
         </form>
 
         {isSubmitting ? <LoadingSpinner /> : null}

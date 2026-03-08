@@ -6,6 +6,7 @@ import LoadingSpinner from '../../components/feedback/LoadingSpinner';
 import { getReports } from '../../services/reportsApi';
 import { mapHttpError } from '../../utils/httpErrorMapper';
 import '../../styles/admin-dashboard.css';
+import GameButton from '../../components/ui/GameButton';
 import ReportFilters from './ReportFilters';
 import ReportTable from './ReportTable';
 
@@ -88,7 +89,7 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <section className="admin-dashboard ui-panel">
+    <section className="admin-dashboard ui-panel ui-panel-animate">
       <header className="admin-dashboard__header ui-panel-header">
         <h2 className="page-title ui-panel-title">Admin Dashboard</h2>
         <p className="admin-dashboard__subtitle">Review incoming player reports and track their status.</p>
@@ -103,16 +104,16 @@ export default function AdminDashboardPage() {
         {!isLoading && !error && reports.length > 0 && <ReportTable reports={reports} onStatusChangeSuccess={fetchReports} />}
 
         <footer className="admin-dashboard__pagination" aria-label="Pagination controls">
-          <button className="ui-button ui-button-secondary" type="button" onClick={handlePrevious} disabled={page === 1 || isLoading}>
+          <GameButton className="ui-button-secondary" type="button" onClick={handlePrevious} disabled={page === 1 || isLoading}>
             Previous
-          </button>
+          </GameButton>
           <span>
             Page {page}
             {totalPages ? ` of ${totalPages}` : ''}
           </span>
-          <button className="ui-button ui-button-secondary" type="button" onClick={handleNext} disabled={!hasNextPage || isLoading}>
+          <GameButton className="ui-button-secondary" type="button" onClick={handleNext} disabled={!hasNextPage || isLoading}>
             Next
-          </button>
+          </GameButton>
         </footer>
       </div>
     </section>
