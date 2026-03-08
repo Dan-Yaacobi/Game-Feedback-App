@@ -24,7 +24,7 @@ export default function TextInput({
         onChange={onChange}
         placeholder={placeholder}
         maxLength={maxLength}
-        className={`form-input ${error ? 'has-error' : ''}`}
+        className={`ui-input ${error ? 'has-error' : ''}`}
       />
       <FormError error={error} />
     </div>

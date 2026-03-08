@@ -15,10 +15,11 @@ const TYPE_OPTIONS = [
 export default function ReportFilters({ filters, onFilterChange }) {
   return (
     <section className="report-filters" aria-label="Report filters">
-      <label className="report-filters__field" htmlFor="filter-status">
-        <span>Status</span>
+      <label className="report-filters__field form-field" htmlFor="filter-status">
+        <span className="form-label">Status</span>
         <select
           id="filter-status"
+          className="ui-select"
           name="status"
           value={filters.status}
           onChange={(event) => onFilterChange('status', event.target.value)}
@@ -31,10 +32,11 @@ export default function ReportFilters({ filters, onFilterChange }) {
         </select>
       </label>
 
-      <label className="report-filters__field" htmlFor="filter-report-type">
-        <span>Report type</span>
+      <label className="report-filters__field form-field" htmlFor="filter-report-type">
+        <span className="form-label">Report type</span>
         <select
           id="filter-report-type"
+          className="ui-select"
           name="report_type"
           value={filters.report_type}
           onChange={(event) => onFilterChange('report_type', event.target.value)}

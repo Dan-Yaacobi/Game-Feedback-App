@@ -75,12 +75,11 @@ export default function ReportTable({ reports, onStatusChangeSuccess }) {
     await onStatusChangeSuccess();
   };
 
-
   return (
     <>
-      <div className="report-table__wrapper">
-        <table className="report-table">
-          <thead>
+      <div className="report-table__wrapper ui-panel">
+        <table className="report-table ui-table">
+          <thead className="ui-table-header">
             <tr>
               <th scope="col">Created At</th>
               <th scope="col">Title</th>
@@ -94,7 +93,7 @@ export default function ReportTable({ reports, onStatusChangeSuccess }) {
             {reports.map((report) => (
               <tr
                 key={report.id || `${report.title}-${report.created_at}`}
-                className="report-table__row"
+                className="report-table__row ui-table-row"
                 onClick={() => openDrawerForReport(report.id)}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter' || event.key === ' ') {
