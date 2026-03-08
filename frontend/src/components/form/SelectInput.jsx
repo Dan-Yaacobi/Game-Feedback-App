@@ -11,7 +11,7 @@ export default function SelectInput({ id, label, value, name, onChange, options,
         name={name}
         value={value}
         onChange={onChange}
-        className={`form-select ${error ? 'has-error' : ''}`}
+        className={`ui-select ${error ? 'has-error' : ''}`}
       >
         <option value="">Select a report type</option>
         {options.map((option) => (

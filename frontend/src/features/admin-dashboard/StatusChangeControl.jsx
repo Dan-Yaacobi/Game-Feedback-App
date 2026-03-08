@@ -53,7 +53,7 @@ export default function StatusChangeControl({ reportId, status, onStatusUpdated 
       </label>
       <select
         id="status-change-select"
-        className="status-change-control__select"
+        className="ui-select"
         value=""
         onChange={handleStatusChange}
         disabled={isSaving || availableTransitions.length === 0}

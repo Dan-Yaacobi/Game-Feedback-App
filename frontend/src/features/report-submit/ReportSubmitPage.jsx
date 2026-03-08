@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react';
 
+import BalanceIcon from '../../components/icons/BalanceIcon';
+import BugIcon from '../../components/icons/BugIcon';
+import SuggestionIcon from '../../components/icons/SuggestionIcon';
 import FileInput from '../../components/form/FileInput';
 import SelectInput from '../../components/form/SelectInput';
 import TextArea from '../../components/form/TextArea';
@@ -114,96 +117,102 @@ export default function ReportSubmitPage() {
   };
 
   return (
-    <section className="report-submit-page">
-      <h2 className="page-title">Submit a Report</h2>
-      <p className="report-submit-intro">
-        Share bugs, suggestions, and gameplay concerns with our team.
-      </p>
+    <section className="report-submit-page ui-panel">
+      <header className="ui-panel-header">
+        <h2 className="page-title ui-panel-title">Submit Report</h2>
+        <p className="report-submit-intro">Share bugs, suggestions, and gameplay concerns with our team.</p>
+      </header>
 
-      <form className="report-submit-form" onSubmit={handleSubmit} noValidate>
-        <TextInput
-          id="title"
-          label="Title"
-          value={formValues.title}
-          onChange={handleInputChange}
-          error={errors.title}
-          name="title"
-          placeholder="Brief summary of your report"
-          maxLength={150}
-        />
+      <div className="ui-panel-body">
+        <div className="report-submit-types" aria-hidden="true">
+          <span className="report-type-chip"><BugIcon /> Bug</span>
+          <span className="report-type-chip"><SuggestionIcon /> Suggestion</span>
+          <span className="report-type-chip"><BalanceIcon /> Balance</span>
+        </div>
 
-        <TextArea
-          id="description"
-          label="Description"
-          value={formValues.description}
-          onChange={handleInputChange}
-          error={errors.description}
-          name="description"
-          placeholder="What happened? Include steps to reproduce if relevant."
-        />
+        <form className="report-submit-form" onSubmit={handleSubmit} noValidate>
+          <TextInput
+            id="title"
+            label="Title"
+            value={formValues.title}
+            onChange={handleInputChange}
+            error={errors.title}
+            name="title"
+            placeholder="Brief summary of your report"
+            maxLength={150}
+          />
 
-        <SelectInput
-          id="report_type"
-          label="Report Type"
-          value={formValues.report_type}
-          onChange={handleInputChange}
-          error={errors.report_type}
-          options={reportTypeOptions}
-          name="report_type"
-        />
+          <TextArea
+            id="description"
+            label="Description"
+            value={formValues.description}
+            onChange={handleInputChange}
+            error={errors.description}
+            name="description"
+            placeholder="What happened? Include steps to reproduce if relevant."
+          />
 
-        <TextInput
-          id="player_name"
-          label="Player Name (optional)"
-          value={formValues.player_name}
-          onChange={handleInputChange}
-          error={errors.player_name}
-          name="player_name"
-          placeholder="Your in-game name"
-          maxLength={100}
-        />
+          <SelectInput
+            id="report_type"
+            label="Report Type"
+            value={formValues.report_type}
+            onChange={handleInputChange}
+            error={errors.report_type}
+            options={reportTypeOptions}
+            name="report_type"
+          />
 
-        <TextInput
-          id="player_email"
-          label="Player Email (optional)"
-          value={formValues.player_email}
-          onChange={handleInputChange}
-          error={errors.player_email}
-          name="player_email"
-          type="email"
-          placeholder="you@example.com"
-        />
+          <TextInput
+            id="player_name"
+            label="Player Name (optional)"
+            value={formValues.player_name}
+            onChange={handleInputChange}
+            error={errors.player_name}
+            name="player_name"
+            placeholder="Your in-game name"
+            maxLength={100}
+          />
 
-        <TextInput
-          id="tags"
-          label="Tags (optional)"
-          value={formValues.tags}
-          onChange={handleInputChange}
-          error={errors.tags}
-          name="tags"
-          placeholder="ui, crash, matchmaking"
-        />
+          <TextInput
+            id="player_email"
+            label="Player Email (optional)"
+            value={formValues.player_email}
+            onChange={handleInputChange}
+            error={errors.player_email}
+            name="player_email"
+            type="email"
+            placeholder="you@example.com"
+          />
 
-        <FileInput
-          id="screenshot"
-          label="Screenshot (optional)"
-          onChange={handleFileChange}
-          error={errors.screenshot}
-          inputRef={fileInputRef}
-          accept={ALLOWED_SCREENSHOT_TYPES.join(',')}
-          helperText="Accepted formats: PNG, JPEG, WEBP"
-        />
+          <TextInput
+            id="tags"
+            label="Tags (optional)"
+            value={formValues.tags}
+            onChange={handleInputChange}
+            error={errors.tags}
+            name="tags"
+            placeholder="ui, crash, matchmaking"
+          />
 
-        <button type="submit" className="submit-button" disabled={isSubmitting}>
-          {isSubmitting ? 'Submitting...' : 'Submit Report'}
-        </button>
+          <FileInput
+            id="screenshot"
+            label="Screenshot (optional)"
+            onChange={handleFileChange}
+            error={errors.screenshot}
+            inputRef={fileInputRef}
+            accept={ALLOWED_SCREENSHOT_TYPES.join(',')}
+            helperText="Accepted formats: PNG, JPEG, WEBP"
+          />
 
-        {isSubmitting && <LoadingSpinner size="sm" />}
+          <button type="submit" className="ui-button ui-button-primary" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : 'Submit Report'}
+          </button>
+        </form>
 
-        <SuccessMessage message={successMessage} />
-
+        {isSubmitting ? <LoadingSpinner /> : null}
         <ErrorBanner message={submitError} />
-      </form>
+        <SuccessMessage message={successMessage} />
+      </div>
     </section>
   );
 }

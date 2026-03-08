@@ -22,7 +22,7 @@ export default function TextArea({
         onChange={onChange}
         placeholder={placeholder}
         rows={rows}
-        className={`form-textarea ${error ? 'has-error' : ''}`}
+        className={`ui-textarea ${error ? 'has-error' : ''}`}
       />
       <FormError error={error} />
     </div>

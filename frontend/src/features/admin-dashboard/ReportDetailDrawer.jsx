@@ -38,18 +38,18 @@ export default function ReportDetailDrawer({ report, isOpen, isLoading, onClose,
   return (
     <div className="report-detail-drawer" role="dialog" aria-modal="true" aria-label="Report details">
       <div className="report-detail-drawer__backdrop" onClick={onClose} />
-      <aside className="report-detail-drawer__panel">
-        <div className="report-detail-drawer__header">
-          <h3>Report Details</h3>
-          <button type="button" onClick={onClose} aria-label="Close report details">
+      <aside className="report-detail-drawer__panel ui-panel">
+        <div className="report-detail-drawer__header ui-panel-header">
+          <h3 className="ui-panel-title">Report Details</h3>
+          <button type="button" className="ui-button ui-button-secondary" onClick={onClose} aria-label="Close report details">
             Close
           </button>
         </div>
 
-        {isLoading && <p className="report-detail-drawer__state">Loading report details...</p>}
+        {isLoading && <p className="report-detail-drawer__state ui-panel-body">Loading report details...</p>}
 
         {!isLoading && report && (
-          <div className="report-detail-drawer__content">
+          <div className="report-detail-drawer__content ui-panel-body">
             <dl className="report-detail-drawer__fields">
               <div>
                 <dt>Title</dt>

@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import ReportFilters from './ReportFilters';
-import '../../styles/admin-dashboard.css';
-import ReportTable from './ReportTable';
 import EmptyState from '../../components/feedback/EmptyState';
 import ErrorBanner from '../../components/feedback/ErrorBanner';
 import LoadingSpinner from '../../components/feedback/LoadingSpinner';
 import { getReports } from '../../services/reportsApi';
 import { mapHttpError } from '../../utils/httpErrorMapper';
+import '../../styles/admin-dashboard.css';
+import ReportFilters from './ReportFilters';
+import ReportTable from './ReportTable';
 
 const DEFAULT_LIMIT = 20;
 const INITIAL_FILTERS = {
@@ -88,31 +88,33 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <section className="admin-dashboard">
-      <header className="admin-dashboard__header">
-        <h2 className="page-title">Admin Dashboard</h2>
+    <section className="admin-dashboard ui-panel">
+      <header className="admin-dashboard__header ui-panel-header">
+        <h2 className="page-title ui-panel-title">Admin Dashboard</h2>
         <p className="admin-dashboard__subtitle">Review incoming player reports and track their status.</p>
       </header>
 
-      <ReportFilters filters={filters} onFilterChange={handleFilterChange} />
+      <div className="ui-panel-body">
+        <ReportFilters filters={filters} onFilterChange={handleFilterChange} />
 
-      {isLoading && <LoadingSpinner />}
-      {!isLoading && <ErrorBanner message={error} />}
-      {!isLoading && !error && reports.length === 0 && <EmptyState message="No reports found." />}
-      {!isLoading && !error && reports.length > 0 && <ReportTable reports={reports} onStatusChangeSuccess={fetchReports} />}
+        {isLoading && <LoadingSpinner />}
+        {!isLoading && <ErrorBanner message={error} />}
+        {!isLoading && !error && reports.length === 0 && <EmptyState message="No reports found." />}
+        {!isLoading && !error && reports.length > 0 && <ReportTable reports={reports} onStatusChangeSuccess={fetchReports} />}
 
-      <footer className="admin-dashboard__pagination" aria-label="Pagination controls">
-        <button type="button" onClick={handlePrevious} disabled={page === 1 || isLoading}>
-          Previous
-        </button>
-        <span>
-          Page {page}
-          {totalPages ? ` of ${totalPages}` : ''}
-        </span>
-        <button type="button" onClick={handleNext} disabled={!hasNextPage || isLoading}>
-          Next
-        </button>
-      </footer>
+        <footer className="admin-dashboard__pagination" aria-label="Pagination controls">
+          <button className="ui-button ui-button-secondary" type="button" onClick={handlePrevious} disabled={page === 1 || isLoading}>
+            Previous
+          </button>
+          <span>
+            Page {page}
+            {totalPages ? ` of ${totalPages}` : ''}
+          </span>
+          <button className="ui-button ui-button-secondary" type="button" onClick={handleNext} disabled={!hasNextPage || isLoading}>
+            Next
+          </button>
+        </footer>
+      </div>
     </section>
   );
 }

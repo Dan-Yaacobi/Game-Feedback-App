@@ -1,3 +1,4 @@
+import UploadIcon from '../icons/UploadIcon';
 import FormError from './FormError';
 
 export default function FileInput({ id, label, onChange, error, accept, helperText, inputRef }) {
@@ -12,9 +13,13 @@ export default function FileInput({ id, label, onChange, error, accept, helperTe
         type="file"
         onChange={onChange}
         accept={accept}
-        className={`form-input form-file-input ${error ? 'has-error' : ''}`}
+        className={`ui-input ${error ? 'has-error' : ''}`}
       />
-      {helperText ? <p className="form-helper">{helperText}</p> : null}
+      {helperText ? (
+        <p className="form-helper">
+          <UploadIcon aria-hidden="true" /> {helperText}
+        </p>
+      ) : null}
       <FormError error={error} />
     </div>
   );
