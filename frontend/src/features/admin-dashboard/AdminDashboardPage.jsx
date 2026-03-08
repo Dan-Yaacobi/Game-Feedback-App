@@ -1,10 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import EmptyState from '../../components/feedback/EmptyState';
 import ErrorBanner from '../../components/feedback/ErrorBanner';
 import LoadingSpinner from '../../components/feedback/LoadingSpinner';
+import apiClient from '../../services/apiClient';
 import { getReports } from '../../services/reportsApi';
 import { mapHttpError } from '../../utils/httpErrorMapper';
+import useAdminAuth from '../admin-auth/useAdminAuth';
 import '../../styles/admin-dashboard.css';
 import ReportFilters from './ReportFilters';
 import ReportTable from './ReportTable';
@@ -26,12 +29,20 @@ function normalizeResponse(data) {
 }
 
 export default function AdminDashboardPage() {
+  const navigate = useNavigate();
+  const { clearAuthentication } = useAdminAuth();
   const [reports, setReports] = useState([]);
   const [filters, setFilters] = useState(INITIAL_FILTERS);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSuccess, setPasswordSuccess] = useState('');
+  const [isPasswordSubmitting, setIsPasswordSubmitting] = useState(false);
 
   const queryParams = useMemo(
     () => ({
@@ -87,11 +98,45 @@ export default function AdminDashboardPage() {
     setPage((currentPage) => currentPage + 1);
   };
 
+  const handleLogout = () => {
+    clearAuthentication();
+    navigate('/admin/login', { replace: true });
+  };
+
+  const handleChangePassword = async (event) => {
+    event.preventDefault();
+    setPasswordError('');
+    setPasswordSuccess('');
+    setIsPasswordSubmitting(true);
+
+    try {
+      await apiClient.post('/admin/change-password', {
+        currentPassword,
+        newPassword,
+      });
+
+      setPasswordSuccess('Password changed successfully.');
+      setCurrentPassword('');
+      setNewPassword('');
+    } catch {
+      setPasswordError('Could not change password. Check your current password and try again.');
+    } finally {
+      setIsPasswordSubmitting(false);
+    }
+  };
+
   return (
     <section className="admin-dashboard ui-panel">
       <header className="admin-dashboard__header ui-panel-header">
-        <h2 className="page-title ui-panel-title">Admin Dashboard</h2>
-        <p className="admin-dashboard__subtitle">Review incoming player reports and track their status.</p>
+        <div className="admin-dashboard__header-row">
+          <div>
+            <h2 className="page-title ui-panel-title">Admin Dashboard</h2>
+            <p className="admin-dashboard__subtitle">Review incoming player reports and track their status.</p>
+          </div>
+          <button type="button" className="ui-button ui-button-secondary" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </header>
 
       <div className="ui-panel-body">
@@ -114,6 +159,47 @@ export default function AdminDashboardPage() {
             Next
           </button>
         </footer>
+
+        <section className="admin-settings" aria-labelledby="admin-settings-title">
+          <h3 id="admin-settings-title">Admin Settings</h3>
+          <form className="admin-settings__form" onSubmit={handleChangePassword}>
+            <div className="form-field">
+              <label className="form-label" htmlFor="current-password">
+                Current password
+              </label>
+              <input
+                id="current-password"
+                className="ui-input"
+                type="password"
+                value={currentPassword}
+                onChange={(event) => setCurrentPassword(event.target.value)}
+                minLength={4}
+                required
+              />
+            </div>
+            <div className="form-field">
+              <label className="form-label" htmlFor="new-password">
+                New password
+              </label>
+              <input
+                id="new-password"
+                className="ui-input"
+                type="password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                minLength={6}
+                required
+              />
+            </div>
+
+            {passwordError && <p className="form-error">{passwordError}</p>}
+            {passwordSuccess && <p className="admin-settings__success">{passwordSuccess}</p>}
+
+            <button className="ui-button ui-button-primary" type="submit" disabled={isPasswordSubmitting}>
+              {isPasswordSubmitting ? 'Updating...' : 'Change password'}
+            </button>
+          </form>
+        </section>
       </div>
     </section>
   );

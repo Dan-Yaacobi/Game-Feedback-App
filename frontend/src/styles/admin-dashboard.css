@@ -120,3 +120,33 @@
   color: var(--color-error);
   font-size: 0.85rem;
 }
+
+.admin-dashboard__header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.admin-settings {
+  border: var(--border-thick) solid var(--color-border-dark);
+  background: rgb(255 255 255 / 4%);
+  padding: var(--space-lg);
+}
+
+.admin-settings h3 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  margin-bottom: var(--space-md);
+}
+
+.admin-settings__form {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 420px;
+}
+
+.admin-settings__success {
+  color: var(--color-success);
+  font-size: 0.9rem;
+}
