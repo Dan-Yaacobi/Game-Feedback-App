@@ -9,7 +9,7 @@ export default function App() {
         <h1 className="app-title">Game Feedback System // Retro Ops Console</h1>
       </header>
 
-      <main className="app-content">
+      <main className="app-content" role="main">
         <AppRouter />
       </main>
     </div>

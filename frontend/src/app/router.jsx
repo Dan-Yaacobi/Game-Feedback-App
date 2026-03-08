@@ -1,23 +1,18 @@
+import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import React from "react"
-import AdminDashboardPage from '../features/admin-dashboard/AdminDashboardPage';
-import ReportSubmitPage from '../features/report-submit/ReportSubmitPage';
 
-function LandingPage() {
-  return (
-    <section>
-      <h2 className="page-title">Welcome</h2>
-      <p>Frontend foundation is ready.</p>
-    </section>
-  );
-}
+import AdminDashboardPage from '../features/admin-dashboard/AdminDashboardPage';
+import AdminLoginPage from '../features/admin-auth/AdminLoginPage';
+import HomePage from '../features/home/HomePage';
+import ReportSubmitPage from '../features/report-submit/ReportSubmitPage';
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/report" element={<ReportSubmitPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin" element={<AdminDashboardPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
