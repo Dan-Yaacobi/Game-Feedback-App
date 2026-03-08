@@ -343,3 +343,35 @@ LIMIT 10;
    - `open` → `investigating`
    - `investigating` → `closed`
 7. Re-run SQL query to confirm status changes persisted.
+
+## Vercel Deployment
+
+### Local development
+
+Run backend:
+
+```bash
+cd backend
+npm run dev
+```
+
+Run frontend:
+
+```bash
+cd frontend
+npm run dev
+```
+
+### Deployment steps
+
+1. Push repository to GitHub.
+2. Create a new project in Vercel.
+3. Import the repository.
+4. Set the following environment variables in Vercel:
+   - `DATABASE_URL`
+   - `SMTP_HOST`
+   - `SMTP_PORT`
+   - `SMTP_USER`
+   - `SMTP_PASS`
+   - `OWNER_EMAIL`
+5. Deploy.
