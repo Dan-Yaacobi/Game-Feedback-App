@@ -17,6 +17,7 @@ function formatStatus(status) {
 }
 
 export default function StatusChangeControl({ reportId, status, onStatusUpdated }) {
+  const selectId = `status-change-select-${reportId}`;
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -48,11 +49,11 @@ export default function StatusChangeControl({ reportId, status, onStatusUpdated 
 
   return (
     <div className="status-change-control">
-      <label className="status-change-control__label" htmlFor="status-change-select">
+      <label className="status-change-control__label" htmlFor={selectId}>
         Status
       </label>
       <select
-        id="status-change-select"
+        id={selectId}
         className="ui-select"
         value=""
         onChange={handleStatusChange}

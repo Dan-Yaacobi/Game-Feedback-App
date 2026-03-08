@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const env = require('./config/env');
 require('./config/db');
 const reportsRouter = require('./modules/reports/report.routes');
+const adminRoutes = require('./modules/admin/admin.routes');
 const logger = require('./shared/logger');
 const { notFoundMiddleware } = require('./middleware/notFound.middleware');
 const { errorMiddleware } = require('./middleware/error.middleware');
@@ -31,6 +32,7 @@ app.use(
 );
 
 app.use('/api', reportsRouter);
+app.use('/api/admin', adminRoutes);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
