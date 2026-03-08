@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-
+import React from "react"
 import AdminDashboardPage from '../features/admin-dashboard/AdminDashboardPage';
 import ReportSubmitPage from '../features/report-submit/ReportSubmitPage';
 
